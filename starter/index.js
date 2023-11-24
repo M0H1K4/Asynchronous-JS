@@ -10,37 +10,34 @@ we used there callBack() => ||| and also "promise"
 const readFilePro = (file) => {
   return new Promise((resolve, reject) => {
     fs.readFile(file, (err, data) => {
-      if (err) reject("I could not find that file bby ❤️");
+      if (err) reject("ver vanxe shechema 😒");
       resolve(data);
     });
   });
 };
 
 const writeFilePro = (file, data) => {
-  return new promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     fs.writeFile(file, data, (err) => {
-      if (err) return "Could not find file 😒";
-      resolve("arisss gamomivda! 😎");
+      if (err) reject("could not write file ! ! ");
+      resolve("success");
     });
   });
 };
 
-readFilePro(`${__dirname}/dog.txt`).then((data) => {
-  console.log(`Breed: ${data}`);
-
-  superagent
-    .get(`https://dog.ceo/api/breed/${data}/images/random`)
-    .then((res) => {
-      console.log(res.body.message);
-
-      fs.writeFile("dog-img-txt", res.body.message, (err) => {
-        if (err) return console.log(err.message);
-        console.log("Random dog image saved to file");
-      });
-    })
-
-    // helps us to catch errors easyer
-    .catch((err) => {
-      console.log(err.message);
-    });
-});
+readFilePro(`${__dirname}/dog.txt`)
+  .then((data) => {
+    console.log(`Breed: ${data}`);
+    return superagent.get(`https://dog.ceo/api/breed/${data}/images/random`);
+  })
+  .then((res) => {
+    console.log(res.body.message);
+    return writeFilePro("dogs-img.txt", res.body.message);
+  })
+  // helps us to catch errors easyer
+  .then(() => {
+    console.log("Random dog image saved to file");
+  })
+  .catch((err) => {
+    console.log(err.message);
+  });
