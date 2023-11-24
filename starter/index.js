@@ -16,6 +16,15 @@ const readFilePro = (file) => {
   });
 };
 
+const writeFilePro = (file, data) => {
+  return new promise((resolve, reject) => {
+    fs.writeFile(file, data, (err) => {
+      if (err) return "Could not find file 😒";
+      resolve("arisss gamomivda! 😎");
+    });
+  });
+};
+
 readFilePro(`${__dirname}/dog.txt`).then((data) => {
   console.log(`Breed: ${data}`);
 
@@ -35,4 +44,3 @@ readFilePro(`${__dirname}/dog.txt`).then((data) => {
       console.log(err.message);
     });
 });
-
